@@ -143,45 +143,63 @@ public class Sort {
 	}
 
 	// 7、归并排序
-	public static void mergeSort(int[] numbers, int left, int right) {
-		int t = 1;// 每组元素个数
-		int size = right - left + 1;
-		while (t < size) {
-			int s = t;// 本次循环每组元素个数
-			t = 2 * s;
-			int i = left;
-			while (i + (t - 1) < size) {
-				merge(numbers, i, i + (s - 1), i + (t - 1));
-				i += t;
-			}
-			if (i + (s - 1) < right)
-				merge(numbers, i, i + (s - 1), right);
-		}
-	}
+	  public static void mergeSort(int arr[], int l, int r) 
+	  { 
+	      if (l < r) 
+	      { 
+	          int m = l+(r-l)/2; 
+	    
+	          mergeSort(arr, l, m); 
+	          mergeSort(arr, m+1, r);     
+	          merge(arr, l, m, r); 
+	      } 
+	  }
+	public static void merge(int arr[], int l, int m, int r) 
+	  { 
+	      int i, j, k; 
+	      int n1 = m - l + 1; 
+	      int n2 =  r - m; 
 
-	private static void merge(int[] data, int p, int q, int r) {
-		int[] B = new int[data.length];
-		int s = p;
-		int t = q + 1;
-		int k = p;
-		while (s <= q && t <= r) {
-			if (data[s] <= data[t]) {
-				B[k] = data[s];
-				s++;
-			} else {
-				B[k] = data[t];
-				t++;
-			}
-			k++;
-		}
-		if (s == q + 1)
-			B[k++] = data[t++];
-		else
-			B[k++] = data[s++];
-		for (int i = p; i <= r; i++)
-			data[i] = B[i];
-	}
+	      int L[] = new int[n1];
+	      int R[] = new int[n2]; 
 
+	      for (i = 0; i < n1; i++) 
+	          L[i] = arr[l + i]; 
+	      for (j = 0; j < n2; j++) 
+	          R[j] = arr[m + 1+ j]; 
+
+	      i = 0; 
+	      j = 0; 
+	      k = l; 
+	      while (i < n1 && j < n2) 
+	      { 
+	          if (L[i] <= R[j]) 
+	          { 
+	              arr[k] = L[i]; 
+	              i++; 
+	          } 
+	          else
+	          { 
+	              arr[k] = R[j]; 
+	              j++; 
+	          } 
+	          k++; 
+	      } 
+	    
+	      while (i < n1) 
+	      { 
+	          arr[k] = L[i]; 
+	          i++; 
+	          k++; 
+	      } 
+	    
+	      while (j < n2) 
+	      { 
+	          arr[k] = R[j]; 
+	          j++; 
+	          k++; 
+	      } 
+	  } 
 	// 8、计数排序
 	public static void countSort(int[] v, int maxValue) {
 		int[] bucket = new int[maxValue + 1];
